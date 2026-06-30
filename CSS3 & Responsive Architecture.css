@@ -1,0 +1,183 @@
+/* ==========================================================================
+   1. CSS Variables & Theme Strategy (Light/Dark Mode)
+   ========================================================================== */
+:root {
+    /* Light Theme Variables */
+    --bg-color: #ffffff;
+    --text-color: #1f2937;
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --surface-color: #f3f4f6;
+    --border-color: #e5e7eb;
+    --transition-speed: 0.3s;
+}
+
+/* Automatic Dark Mode using Media Queries */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark Theme Variables */
+        --bg-color: #111827;
+        --text-color: #f9fafb;
+        --primary-color: #3b82f6;
+        --primary-hover: #60a5fa;
+        --surface-color: #1f2937;
+        --border-color: #374151;
+    }
+}
+
+/* ==========================================================================
+   2. Base Reset & Mobile-First Defaults
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   3. Flexbox: Component Alignment (Header & Nav)
+   ========================================================================== */
+header {
+    background-color: var(--surface-color);
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+nav ul {
+    list-style: none;
+    /* Flexbox for navigation */
+    display: flex;
+    flex-direction: column; /* Mobile-first: stacked links */
+    gap: 1rem;
+    align-items: center;
+}
+
+nav a[aria-current="page"] {
+    font-weight: bold;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* ==========================================================================
+   4. CSS Grid: Complex Page Layouts (Main Content)
+   ========================================================================== */
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    /* CSS Grid for the macro layout */
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile-first: single column */
+    gap: 3rem;
+}
+
+section {
+    background-color: var(--surface-color);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+/* ==========================================================================
+   5. Flexbox: Form Alignment
+   ========================================================================== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: inherit;
+}
+
+input:focus, textarea:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+button[type="submit"] {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    align-self: flex-start; /* Flexbox alignment */
+    transition: background-color var(--transition-speed);
+}
+
+button[type="submit"]:hover, 
+button[type="submit"]:focus {
+    background-color: var(--primary-hover);
+}
+
+/* ==========================================================================
+   6. Footer Styling
+   ========================================================================== */
+footer {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--surface-color);
+}
+
+/* ==========================================================================
+   7. Media Queries (Responsive Architecture: Tablet & Desktop)
+   ========================================================================== */
+
+/* Tablet breakpoint */
+@media (min-width: 768px) {
+    nav ul {
+        flex-direction: row; /* Switch to horizontal nav */
+        justify-content: center;
+        gap: 2rem;
+    }
+}
+
+/* Desktop breakpoint */
+@media (min-width: 1024px) {
+    main {
+        /* Switch Grid to a 2-column asymmetric layout on large screens */
+        grid-template-columns: 1fr 1fr; 
+        align-items: start;
+    }
+
+    /* Make the intro section span both columns, while other sections stack side-by-side */
+    section:first-of-type {
+        grid-column: 1 / -1; 
+        text-align: center;
+        padding: 4rem
